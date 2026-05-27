@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../shared/widgets/continue_watching_card.dart';
 import '../../../../shared/widgets/creator_card.dart';
+import '../../../../shared/widgets/hero_banner.dart';
 import '../../../../shared/widgets/section_title.dart';
 import '../../../../shared/widgets/video_card.dart';
 
@@ -15,12 +17,40 @@ class HomeScreen extends StatelessWidget {
           'Media Crunchy',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
         ),
+
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+
+          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications)),
+        ],
       ),
 
       body: ListView(
         padding: const EdgeInsets.all(16),
 
         children: [
+          const HeroBanner(),
+
+          const SizedBox(height: 30),
+
+          const SectionTitle(title: 'Continue Watching'),
+
+          SizedBox(
+            height: 180,
+
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+
+              children: const [
+                ContinueWatchingCard(title: 'Cyber Samurai Ep 3'),
+
+                ContinueWatchingCard(title: 'Neon Future Ep 7'),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 30),
+
           const SectionTitle(title: 'Trending AI Anime'),
 
           SizedBox(
@@ -32,9 +62,9 @@ class HomeScreen extends StatelessWidget {
               children: const [
                 VideoCard(title: 'Cyber Samurai'),
 
-                VideoCard(title: 'Neon Future'),
-
                 VideoCard(title: 'AI Wars'),
+
+                VideoCard(title: 'Neon Future'),
               ],
             ),
           ),
@@ -50,11 +80,11 @@ class HomeScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
 
               children: const [
-                CreatorCard(creatorName: 'Aether Studio'),
+                CreatorCard(creatorName: 'Nova Arts'),
 
                 SizedBox(width: 16),
 
-                CreatorCard(creatorName: 'Nova Arts'),
+                CreatorCard(creatorName: 'Aether Studio'),
 
                 SizedBox(width: 16),
 
