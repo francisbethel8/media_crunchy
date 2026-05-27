@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'core/theme/app_theme.dart';
+import 'routes/api_routes.dart';
+
 void main() {
   runApp(const ProviderScope(child: MediaCrunchyApp()));
 }
@@ -10,15 +13,13 @@ class MediaCrunchyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Media Crunchy',
-      theme: ThemeData.dark(),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Media Crunchy', style: TextStyle(fontSize: 32)),
-        ),
-      ),
+
+      theme: AppTheme.darkTheme,
+
+      routerConfig: appRouter,
     );
   }
 }
