@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../shared/widgets/custom_video_player.dart';
 
 class WatchScreen extends StatelessWidget {
   const WatchScreen({super.key});
@@ -12,17 +13,18 @@ class WatchScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
 
         children: [
-          Container(
-            height: 220,
+          const CustomVideoPlayer(),
 
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(16),
-            ),
+          // Container(
+          //   height: 220,
 
-            child: const Center(child: Icon(Icons.play_circle_fill, size: 80)),
-          ),
+          //   decoration: BoxDecoration(
+          //     color: Colors.black,
+          //     borderRadius: BorderRadius.circular(16),
+          //   ),
 
+          //   child: const Center(child: Icon(Icons.play_circle_fill, size: 80)),
+          // ),
           const SizedBox(height: 20),
 
           const Text(
