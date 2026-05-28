@@ -5,6 +5,7 @@ import '../../../../shared/widgets/creator_card.dart';
 import '../../../../shared/widgets/hero_banner.dart';
 import '../../../../shared/widgets/section_title.dart';
 import '../../../../shared/widgets/video_card.dart';
+import '../../../../services/fake_video_data.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -59,13 +60,16 @@ class HomeScreen extends StatelessWidget {
             child: ListView(
               scrollDirection: Axis.horizontal,
 
-              children: const [
-                VideoCard(title: 'Cyber Samurai'),
+              // children: const [
+              //   VideoCard(title: 'Cyber Samurai'),
 
-                VideoCard(title: 'AI Wars'),
+              //   VideoCard(title: 'AI Wars'),
 
-                VideoCard(title: 'Neon Future'),
-              ],
+              //   VideoCard(title: 'Neon Future'),
+              // ],
+              children: fakeVideos
+                  .map((video) => VideoCard(video: video))
+                  .toList(),
             ),
           ),
 

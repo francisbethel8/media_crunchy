@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import '../features/video/presentation/screens/watch_screen.dart';
+import '../models/video_model.dart';
 import '../shared/components/main_navigation_screen.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -10,6 +11,14 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const MainNavigationScreen(),
     ),
 
-    GoRoute(path: '/watch', builder: (context, state) => const WatchScreen()),
+    GoRoute(
+      path: '/watch',
+
+      builder: (context, state) {
+        final video = state.extra as VideoModel;
+
+        return WatchScreen(video: video);
+      },
+    ),
   ],
 );

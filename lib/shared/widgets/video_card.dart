@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class VideoCard extends StatelessWidget {
-  final String title;
+import '../../models/video_model.dart';
 
-  const VideoCard({super.key, required this.title});
+class VideoCard extends StatelessWidget {
+  final VideoModel video;
+
+  const VideoCard({super.key, required this.video});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push('/watch');
+        context.push('/watch', extra: video);
       },
 
       child: Container(
@@ -49,7 +51,7 @@ class VideoCard extends StatelessWidget {
               padding: const EdgeInsets.all(12),
 
               child: Text(
-                title,
+                video.title,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
