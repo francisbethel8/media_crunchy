@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../models/video_model.dart';
-import '../../../../shared/widgets/custom_video_player.dart';
+import 'package:media_crunchy/models/video_model.dart';
+import 'package:media_crunchy/shared/widgets/custom_video_player.dart';
+import 'package:media_crunchy/features/library/logic/library_notifier.dart';
 
-class WatchScreen extends StatelessWidget {
+class WatchScreen extends ConsumerWidget {
   final VideoModel video;
 
   const WatchScreen({super.key, required this.video});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final library = ref.watch(libraryProvider);
+    final inLibrary = library.any((item) => item.id == video.id);
+
     return Scaffold(
       appBar: AppBar(title: Text(video.title)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const CustomVideoPlayer(),
+          CustomVideoPlayer(videoUrl: video.videoUrl),
           const SizedBox(height: 20),
           Text(
             video.title,
@@ -50,6 +55,16 @@ class WatchScreen extends StatelessWidget {
           Text(
             video.description,
             style: const TextStyle(fontSize: 16, color: Colors.white70),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton.icon(
+            onPressed: inLibrary
+                ? null
+                : () {
+                    ref.read(libraryProvider.notifier).addVideo(video);
+                  },
+            icon: Icon(inLibrary ? Icons.check : Icons.add),
+            label: Text(inLibrary ? 'Saved to Library' : 'Save to Library'),
           ),
           const SizedBox(height: 30),
           const Text(
