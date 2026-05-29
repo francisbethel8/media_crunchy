@@ -43,6 +43,23 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  Future<void> signUp(String email, String password) async {
+    state = state.copyWith(loading: true, error: null);
+    try {
+      final user = await _authService.signUpWithEmail(email, password);
+      if (user != null) {
+        state = state.copyWith(loading: false, user: user);
+      } else {
+        state = state.copyWith(
+          loading: false,
+          error: 'Check your email for a confirmation link.',
+        );
+      }
+    } catch (error) {
+      state = state.copyWith(loading: false, error: error.toString());
+    }
+  }
+
   Future<void> signOut() async {
     state = state.copyWith(loading: true, error: null);
     await _authService.signOut();

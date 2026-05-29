@@ -13,6 +13,14 @@ class AuthService {
     return response.user;
   }
 
+  Future<User?> signUpWithEmail(String email, String password) async {
+    final response = await _client.auth.signUp(
+      email: email,
+      password: password,
+    );
+    return response.user;
+  }
+
   Future<void> signOut() async {
     await _client.auth.signOut();
   }
