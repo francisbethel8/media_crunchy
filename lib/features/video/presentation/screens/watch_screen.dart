@@ -60,8 +60,8 @@ class WatchScreen extends ConsumerWidget {
           ElevatedButton.icon(
             onPressed: inLibrary
                 ? null
-                : () {
-                    ref.read(libraryProvider.notifier).addVideo(video);
+                : () async {
+                    await ref.read(libraryProvider.notifier).addVideo(video);
                   },
             icon: Icon(inLibrary ? Icons.check : Icons.add),
             label: Text(inLibrary ? 'Saved to Library' : 'Save to Library'),
@@ -95,7 +95,7 @@ class WatchScreen extends ConsumerWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
-                        episode,
+                        episode.title,
                         style: const TextStyle(fontSize: 18),
                       ),
                     ),

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/video_model.dart';
-import 'fake_video_data.dart';
+import 'supabase_service.dart';
 
 abstract class VideoService {
   Future<List<VideoModel>> fetchVideos();
@@ -9,7 +9,7 @@ abstract class VideoService {
 }
 
 final videoServiceProvider = Provider<VideoService>(
-  (ref) => FakeVideoService(),
+  (ref) => SupabaseVideoService(ref.read(supabaseServiceProvider)),
 );
 
 final videoListProvider = FutureProvider<List<VideoModel>>(
@@ -21,16 +21,30 @@ final videoCategoriesProvider = FutureProvider<List<String>>((ref) async {
   return videos.map((video) => video.category).toSet().toList();
 });
 
-class FakeVideoService implements VideoService {
+class SupabaseVideoService implements VideoService {
+  SupabaseVideoService(this._supabaseService);
+
+  final SupabaseService _supabaseService;
+
   @override
   Future<List<VideoModel>> fetchVideos() async {
-    await Future.delayed(const Duration(milliseconds: 400));
-    return fakeVideos;
+    return _supabaseService.fetchVideos();
   }
 
   @override
   Future<List<VideoModel>> fetchVideosByCategory(String category) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    return fakeVideos.where((video) => video.category == category).toList();
+    final response = await _supabaseService.client
+        .from('videos')
+        .select()
+        .eq('category', category);
+
+    final data = response as List<dynamic>?;
+    if (data == null) {
+      return [];
+    }
+
+    return data.map((item) {
+      return VideoModel.fromJson(Map<String, dynamic>.from(item as Map));
+    }).toList();
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:media_crunchy/features/auth/logic/auth_notifier.dart';
+import 'package:media_crunchy/services/supabase_service.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -35,6 +36,28 @@ class ProfileScreen extends ConsumerWidget {
                 }
               },
               child: const Text('Sign out'),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  await ref.read(supabaseServiceProvider).seedVideosIfEmpty();
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Sample videos seeded successfully.'),
+                      ),
+                    );
+                  }
+                } catch (error) {
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Failed to seed videos: $error')),
+                    );
+                  }
+                }
+              },
+              child: const Text('Populate sample videos'),
             ),
           ],
         ),

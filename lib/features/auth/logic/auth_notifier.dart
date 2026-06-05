@@ -2,42 +2,65 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'package:media_crunchy/models/user_profile_model.dart';
 import 'package:media_crunchy/services/auth_service.dart';
+import 'package:media_crunchy/services/supabase_service.dart';
 
 class AuthState {
   final bool loading;
   final String? error;
   final User? user;
+  final UserProfileModel? profile;
 
-  const AuthState({this.loading = false, this.error, this.user});
+  const AuthState({this.loading = false, this.error, this.user, this.profile});
 
-  AuthState copyWith({bool? loading, String? error, User? user}) {
+  AuthState copyWith({
+    bool? loading,
+    String? error,
+    User? user,
+    UserProfileModel? profile,
+  }) {
     return AuthState(
       loading: loading ?? this.loading,
       error: error,
       user: user ?? this.user,
+      profile: profile ?? this.profile,
     );
   }
 }
 
 class AuthNotifier extends StateNotifier<AuthState> {
-  AuthNotifier(this._authService) : super(const AuthState()) {
+  AuthNotifier(this._authService, this._supabaseService)
+    : super(const AuthState()) {
     loadCurrentUser();
   }
 
   final AuthService _authService;
+  final SupabaseService _supabaseService;
 
   Future<void> loadCurrentUser() async {
     state = state.copyWith(loading: true, error: null);
     final currentUser = _authService.currentUser;
-    state = state.copyWith(loading: false, user: currentUser);
+
+    if (currentUser == null) {
+      state = state.copyWith(loading: false, user: null, profile: null);
+      return;
+    }
+
+    final profile = await _supabaseService.ensureUserProfile(currentUser);
+    state = state.copyWith(loading: false, user: currentUser, profile: profile);
   }
 
   Future<void> signIn(String email, String password) async {
     state = state.copyWith(loading: true, error: null);
     try {
       final user = await _authService.signInWithEmail(email, password);
-      state = state.copyWith(loading: false, user: user);
+      if (user != null) {
+        final profile = await _supabaseService.ensureUserProfile(user);
+        state = state.copyWith(loading: false, user: user, profile: profile);
+      } else {
+        state = state.copyWith(loading: false, user: null, profile: null);
+      }
     } catch (error) {
       state = state.copyWith(loading: false, error: error.toString());
     }
@@ -48,7 +71,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
     try {
       final user = await _authService.signUpWithEmail(email, password);
       if (user != null) {
-        state = state.copyWith(loading: false, user: user);
+        final profile = await _supabaseService.ensureUserProfile(user);
+        state = state.copyWith(loading: false, user: user, profile: profile);
       } else {
         state = state.copyWith(
           loading: false,
@@ -72,5 +96,8 @@ final authServiceProvider = Provider<AuthService>((ref) {
 });
 
 final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>(
-  (ref) => AuthNotifier(ref.read(authServiceProvider)),
+  (ref) => AuthNotifier(
+    ref.read(authServiceProvider),
+    ref.read(supabaseServiceProvider),
+  ),
 );

@@ -1,2 +1,3 @@
-const String supabaseUrl = 'YOUR_SUPABASE_URL';
-const String supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
+const String supabaseUrl = 'https://dffhflfywccmqtayjtcm.supabase.co';
+const String supabaseAnonKey =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmZmhmbGZ5d2NjbXF0YXlqdGNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAwNjc5OTYsImV4cCI6MjA5NTY0Mzk5Nn0.mVEdeHdxQBX4TpOchENB_NdSYkz8pFrqQWlIsSQyvCs';

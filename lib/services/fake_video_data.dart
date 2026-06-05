@@ -1,4 +1,5 @@
 import '../models/video_model.dart';
+import '../models/episode_model.dart';
 
 final List<VideoModel> fakeVideos = [
   VideoModel(
@@ -12,8 +13,19 @@ final List<VideoModel> fakeVideos = [
     duration: const Duration(minutes: 14),
     rating: 4.8,
     category: 'AI Anime',
-    creator: 'Aurora Studio',
-    episodes: ['Episode 1', 'Episode 2', 'Episode 3'],
+    creatorId: 'aurora-studio',
+    creatorName: 'Aurora Studio',
+    status: 'Published',
+    views: 0,
+    likesCount: 0,
+    commentsCount: 0,
+    episodesCount: 3,
+    createdAt: DateTime.now(),
+    episodes: [
+      EpisodeModel(episodeNumber: 1, title: 'Episode 1'),
+      EpisodeModel(episodeNumber: 2, title: 'Episode 2'),
+      EpisodeModel(episodeNumber: 3, title: 'Episode 3'),
+    ],
   ),
   VideoModel(
     id: 'neon-future',
@@ -26,8 +38,20 @@ final List<VideoModel> fakeVideos = [
     duration: const Duration(minutes: 22),
     rating: 4.6,
     category: 'Cyberpunk',
-    creator: 'Neon Labs',
-    episodes: ['Episode 1', 'Episode 2', 'Episode 3', 'Episode 4'],
+    creatorId: 'neon-labs',
+    creatorName: 'Neon Labs',
+    status: 'Published',
+    views: 0,
+    likesCount: 0,
+    commentsCount: 0,
+    episodesCount: 4,
+    createdAt: DateTime.now(),
+    episodes: [
+      EpisodeModel(episodeNumber: 1, title: 'Episode 1'),
+      EpisodeModel(episodeNumber: 2, title: 'Episode 2'),
+      EpisodeModel(episodeNumber: 3, title: 'Episode 3'),
+      EpisodeModel(episodeNumber: 4, title: 'Episode 4'),
+    ],
   ),
   VideoModel(
     id: 'ai-wars',
@@ -40,7 +64,18 @@ final List<VideoModel> fakeVideos = [
     duration: const Duration(minutes: 18),
     rating: 4.9,
     category: 'Action',
-    creator: 'Titan Engine',
-    episodes: ['Episode 1', 'Episode 2', 'Episode 3'],
+    creatorId: 'titan-engine',
+    creatorName: 'Titan Engine',
+    status: 'Published',
+    views: 0,
+    likesCount: 0,
+    commentsCount: 0,
+    episodesCount: 3,
+    createdAt: DateTime.now(),
+    episodes: [
+      EpisodeModel(episodeNumber: 1, title: 'Episode 1'),
+      EpisodeModel(episodeNumber: 2, title: 'Episode 2'),
+      EpisodeModel(episodeNumber: 3, title: 'Episode 3'),
+    ],
   ),
 ];
